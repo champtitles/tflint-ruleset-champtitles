@@ -1,7 +1,11 @@
 name: release
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+    - '!*'
+    tags:
+    - v*.*.*
 
 jobs:
   goreleaser:
