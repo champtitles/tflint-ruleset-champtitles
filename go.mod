@@ -1,4 +1,4 @@
-module github.com/terraform-linters/tflint-ruleset-template
+module github.com/champtitles/tflint-ruleset-champtitles
 
 go 1.17
 

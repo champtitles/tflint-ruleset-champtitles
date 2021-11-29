@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/champtitles/tflint-ruleset-champtitles/rules"
 	"github.com/terraform-linters/tflint-plugin-sdk/plugin"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
-	"github.com/terraform-linters/tflint-ruleset-template/rules"
 )
 
 func main() {
