@@ -14,7 +14,7 @@ func Test_MultilineCommentRule(t *testing.T) {
 		Expected helper.Issues
 	}{
 		{
-			Name: "no module reference",
+			Name: "indented 3 comments",
 			Content: `
 module "foo" {
 	# test 1
@@ -36,7 +36,7 @@ module "foo" {
 			},
 		},
 		{
-			Name: "no module reference",
+			Name: "3 hash comments",
 			Content: `
 # test 1
 # test 2
@@ -58,7 +58,7 @@ module "foo" {
 			},
 		},
 		{
-			Name: "no module reference",
+			Name: "3 slash comments",
 			Content: `
 // test 1
 // test 2
@@ -80,7 +80,7 @@ module "foo" {
 			},
 		},
 		{
-			Name: "hash module reference",
+			Name: "2 hash comments",
 			Content: `
 # test 1
 # test 2
@@ -90,7 +90,7 @@ module "foo" {
 			Expected: helper.Issues{},
 		},
 		{
-			Name: "local module reference",
+			Name: "2 slash comments",
 			Content: `
 // test 1
 // test 2
@@ -100,7 +100,7 @@ module "foo" {
 			Expected: helper.Issues{},
 		},
 		{
-			Name: "hash module reference",
+			Name: "1 hash comment",
 			Content: `
 # test 1
 module "foo" {
@@ -109,7 +109,7 @@ module "foo" {
 			Expected: helper.Issues{},
 		},
 		{
-			Name: "local module reference",
+			Name: "1 slash comments",
 			Content: `
 // test 1
 module "foo" {
@@ -118,15 +118,7 @@ module "foo" {
 			Expected: helper.Issues{},
 		},
 		{
-			Name: "hash module reference",
-			Content: `
-module "foo" {
- source = "git::git@github.com:champtitles/my-repo.git"
-}`,
-			Expected: helper.Issues{},
-		},
-		{
-			Name: "local module reference",
+			Name: "no comments",
 			Content: `
 module "foo" {
  source = "git::git@github.com:champtitles/my-repo.git"
