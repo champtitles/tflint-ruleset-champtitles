@@ -43,10 +43,7 @@ func (r *ModuleCallUsingHashRule) Check(runner tflint.Runner) error {
 			return nil
 		}
 
-		matched, err := regexp.MatchString(`\w{40}$`, call.SourceAddr)
-		if err != nil {
-			panic(err)
-		}
+		matched, _ := regexp.MatchString(`\w{40}$`, call.SourceAddr)
 		if matched == false {
 			return runner.EmitIssue(r, "git module source should use a hash reference", call.SourceAddrRange)
 		}
