@@ -2,12 +2,12 @@ package rules
 
 import (
 	"fmt"
-	"github.com/terraform-linters/tflint-plugin-sdk/terraform/configs"
+	"github.com/hashicorp/hcl/v2"
 	"github.com/terraform-linters/tflint-plugin-sdk/tflint"
 	"regexp"
 )
 
-// MultilineCommentRule checks for comments which span more than a set number of lines
+// MultilineCommentRule checks for comments which span more than a predefined number of lines
 type MultilineCommentRule struct{}
 
 // NewMultilineCommentRule returns a new rule
@@ -35,29 +35,28 @@ func (r *MultilineCommentRule) Link() string {
 	return ""
 }
 
-// Check checks for comments which span more than a set number of lines
+// Check checks for comments which span more than a predefined number of lines
 func (r *MultilineCommentRule) Check(runner tflint.Runner) error {
-	return runner.WalkModuleCalls(func(call *configs.ModuleCall) error {
 
-		lineLimit := 2 // Max number of lines to allow for comment lines
+	lineLimit := 2 // Max number of lines to allow for comment lines
 
-		errorMsg := fmt.Sprintf("avoid the use of comments which span more than %d lines", lineLimit)
+	errorMsg := fmt.Sprintf("avoid the use of comments which span more than %d lines", lineLimit)
 
-		// Regex pattern to match contiguous lines of comments
-		pattern := fmt.Sprintf("(?m:^[//|#].*\n){%d,}", lineLimit+1)
+	pattern := fmt.Sprintf("(?m:^\\s*[//|#].*\n){%d,}", lineLimit+1)
 
-		files, _ := runner.Files()
+	files, _ := runner.Files()
 
-		for _, file := range files {
-			matched, err := regexp.MatchString(pattern, string(file.Bytes))
-			if err != nil {
-				panic(err)
-			}
-			if matched == true {
-				return runner.EmitIssue(r, errorMsg, call.SourceAddrRange)
-			}
+	for name, file := range files {
+
+		matched, _ := regexp.MatchString(pattern, string(file.Bytes))
+		if matched == true {
+			return runner.EmitIssue(r, errorMsg, hcl.Range{
+				Filename: name,
+				// TODO: Set the start and end to the offending section of the file
+				Start: hcl.Pos{},
+				End:   hcl.Pos{},
+			})
 		}
-
-		return nil
-	})
+	}
+	return nil
 }

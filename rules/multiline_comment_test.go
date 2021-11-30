@@ -16,6 +16,28 @@ func Test_MultilineCommentRule(t *testing.T) {
 		{
 			Name: "no module reference",
 			Content: `
+module "foo" {
+	# test 1
+ 	# test 2
+ 	# test 3
+ 	source = "git::git@github.com:champtitles/my-repo.git"
+}
+`,
+			Expected: helper.Issues{
+				{
+					Rule:    NewMultilineCommentRule(),
+					Message: "avoid the use of comments which span more than 2 lines",
+					Range: hcl.Range{
+						Filename: "resource.tf",
+						Start:    hcl.Pos{},
+						End:      hcl.Pos{},
+					},
+				},
+			},
+		},
+		{
+			Name: "no module reference",
+			Content: `
 # test 1
 # test 2
 # test 3
@@ -29,8 +51,8 @@ module "foo" {
 					Message: "avoid the use of comments which span more than 2 lines",
 					Range: hcl.Range{
 						Filename: "resource.tf",
-						Start:    hcl.Pos{Line: 6, Column: 11},
-						End:      hcl.Pos{Line: 6, Column: 56},
+						Start:    hcl.Pos{},
+						End:      hcl.Pos{},
 					},
 				},
 			},
@@ -51,8 +73,8 @@ module "foo" {
 					Message: "avoid the use of comments which span more than 2 lines",
 					Range: hcl.Range{
 						Filename: "resource.tf",
-						Start:    hcl.Pos{Line: 6, Column: 11},
-						End:      hcl.Pos{Line: 6, Column: 56},
+						Start:    hcl.Pos{},
+						End:      hcl.Pos{},
 					},
 				},
 			},
