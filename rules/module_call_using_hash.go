@@ -17,7 +17,7 @@ func NewModuleCallUsingHashRule() *ModuleCallUsingHashRule {
 
 // Name returns the rule name
 func (r *ModuleCallUsingHashRule) Name() string {
-	return "module_call_validity"
+	return "module_call_using_hash"
 }
 
 // Enabled returns whether the rule is enabled by default
@@ -37,7 +37,6 @@ func (r *ModuleCallUsingHashRule) Link() string {
 
 // Check checks whether git-based module calls use a hash reference instead of a tag or branch name
 func (r *ModuleCallUsingHashRule) Check(runner tflint.Runner) error {
-
 	return runner.WalkModuleCalls(func(call *configs.ModuleCall) error {
 
 		if !strings.Contains(call.SourceAddr, "git::") {
