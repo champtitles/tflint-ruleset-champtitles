@@ -40,7 +40,7 @@ func (r *ResourceCountRule) Check(runner tflint.Runner) error {
 
 	resourceLimit := 12 // Max limit of resource declarations per file
 
-	pattern := regexp.MustCompile("\\sresource \"")
+	pattern := regexp.MustCompile("(^|\\n)resource \"")
 
 	files, _ := runner.Files()
 
