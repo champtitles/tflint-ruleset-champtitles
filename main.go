@@ -13,6 +13,8 @@ func main() {
 			Version: "0.1.0",
 			Rules: []tflint.Rule{
 				rules.NewModuleCallUsingHashRule(),
+				rules.NewMultilineCommentRule(),
+				rules.NewResourceCountRule(),
 			},
 		},
 	})
