@@ -8,7 +8,9 @@ import (
 )
 
 // ResourceCountRule checks the number of resources declared in each terraform file
-type ResourceCountRule struct{}
+type ResourceCountRule struct {
+	tflint.DefaultRule
+}
 
 // NewResourceCountRule returns a new rule
 func NewResourceCountRule() *ResourceCountRule {
@@ -26,7 +28,7 @@ func (r *ResourceCountRule) Enabled() bool {
 }
 
 // Severity returns the rule severity
-func (r *ResourceCountRule) Severity() string {
+func (r *ResourceCountRule) Severity() tflint.Severity {
 	return tflint.ERROR
 }
 
@@ -42,7 +44,7 @@ func (r *ResourceCountRule) Check(runner tflint.Runner) error {
 
 	pattern := regexp.MustCompile("(^|\\n)resource \"")
 
-	files, _ := runner.Files()
+	files, _ := runner.GetFiles()
 
 	for name, file := range files {
 
