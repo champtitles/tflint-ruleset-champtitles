@@ -8,7 +8,9 @@ import (
 )
 
 // MultilineCommentRule checks for comments which span more than a predefined number of lines
-type MultilineCommentRule struct{}
+type MultilineCommentRule struct {
+	tflint.DefaultRule
+}
 
 // NewMultilineCommentRule returns a new rule
 func NewMultilineCommentRule() *MultilineCommentRule {
@@ -26,7 +28,7 @@ func (r *MultilineCommentRule) Enabled() bool {
 }
 
 // Severity returns the rule severity
-func (r *MultilineCommentRule) Severity() string {
+func (r *MultilineCommentRule) Severity() tflint.Severity {
 	return tflint.ERROR
 }
 
@@ -44,7 +46,7 @@ func (r *MultilineCommentRule) Check(runner tflint.Runner) error {
 
 	pattern := fmt.Sprintf("(?m:^\\s*[//|#].*\n){%d,}", lineLimit+1)
 
-	files, _ := runner.Files()
+	files, _ := runner.GetFiles()
 
 	for name, file := range files {
 
