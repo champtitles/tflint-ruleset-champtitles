@@ -3,7 +3,7 @@ module github.com/champtitles/tflint-ruleset-champtitles
 go 1.17
 
 require (
-	github.com/hashicorp/hcl/v2 v2.11.1
+	github.com/hashicorp/hcl/v2 v2.12.0
 	github.com/terraform-linters/tflint-plugin-sdk v0.10.1
 )
 
